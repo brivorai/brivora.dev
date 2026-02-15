@@ -1,0 +1,38 @@
+---
+title: Brivora
+description: Open source, transparent, post-quantum technology for all people.
+template: splash
+hero:
+  title: Brivora
+  tagline: Open source, transparent, post-quantum technology for all people.
+  actions:
+    - text: Get Started
+      link: /getting-started/introduction/
+      icon: right-arrow
+      variant: primary
+    - text: View on GitHub
+      link: https://github.com/brivorai
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+<CardGrid>
+  <Card title="@brivora/crypto" icon="seti:lock">
+    Post-quantum cryptography in 3 lines of TypeScript. Hybrid ML-KEM-768 + ML-DSA-65 + classical crypto. NIST FIPS compliant.
+
+    [Read the docs →](/crypto/overview/)
+  </Card>
+  <Card title="@brivora/verify" icon="seti:todo">
+    5 lines of code to make any AI call verifiable. Cryptographic governance proofs with PQC-signed Merkle roots.
+
+    [Read the docs →](/verify/overview/)
+  </Card>
+  <Card title="Zero Telemetry" icon="seti:ignored">
+    No analytics. No network calls. No tracking. Pure local computation. Your data never leaves your machine.
+  </Card>
+  <Card title="AGPL-3.0" icon="seti:license">
+    Fully open source. Inspect every line. Fork it. Build on it. Free forever for open source projects.
+  </Card>
+</CardGrid>
