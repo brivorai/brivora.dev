@@ -57,6 +57,13 @@ export default defineConfig({
             { label: 'Security Model', slug: 'protocol/security' },
           ],
         },
+        {
+          label: 'Commercial',
+          items: [
+            { label: 'Licensing', slug: 'commercial/licensing' },
+            { label: 'Compliance Advisory', slug: 'commercial/consulting' },
+          ],
+        },
       ],
       head: [
         {
