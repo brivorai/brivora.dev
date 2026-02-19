@@ -1,5 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
-  <rect x="4" y="8" width="16" height="16" rx="2" stroke="#000000" stroke-width="2" fill="none"/>
-  <rect x="12" y="8" width="16" height="16" rx="2" stroke="#000000" stroke-width="1.5" fill="none" opacity="0.5"/>
-  <path d="M20 20 Q22 14 24 8" stroke="#000000" stroke-width="2" stroke-linecap="round" fill="none"/>
+<svg width="32" height="38" viewBox="0 0 32 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Visible edges (solid) -->
+  <path d="M16 3 L29 10.5 L29 27.5 L16 35 L3 27.5 L3 10.5 Z" stroke="#111111" stroke-width="0.7" fill="none"/>
+  <path d="M3 10.5 L16 18 L29 10.5" stroke="#111111" stroke-width="0.7" fill="none"/>
+  <path d="M16 18 L16 35" stroke="#111111" stroke-width="0.7" fill="none"/>
+  <!-- Hidden edges (dashed) -->
+  <path d="M16 3 L16 18" stroke="#111111" stroke-width="0.7" stroke-dasharray="2 2" fill="none"/>
+  <path d="M3 27.5 L16 20" stroke="#111111" stroke-width="0.7" stroke-dasharray="2 2" fill="none"/>
+  <path d="M29 27.5 L16 20" stroke="#111111" stroke-width="0.7" stroke-dasharray="2 2" fill="none"/>
+  <!-- Flame -->
+  <path d="M16 14 C16 14 14.3 16.5 14.3 17.5 C14.3 18.5 15 19.2 16 19.2 C17 19.2 17.7 18.5 17.7 17.5 C17.7 16.5 16 14 16 14Z" fill="#111111"/>
+  <path d="M16 15.5 C16 15.5 15.2 16.8 15.2 17.3 C15.2 17.8 15.5 18.1 16 18.1 C16.5 18.1 16.8 17.8 16.8 17.3 C16.8 16.8 16 15.5 16 15.5Z" fill="white"/>
 </svg>
