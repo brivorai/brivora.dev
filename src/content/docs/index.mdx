@@ -1,13 +1,12 @@
 ---
-title: Brivora
-description: Open source, transparent, post-quantum technology for all people.
+title: Brivora Documentation
+description: Post-quantum cryptographic infrastructure. Open source. Free forever.
 template: splash
 hero:
-  title: Brivora
-  tagline: Open source, transparent, post-quantum technology for all people.
+  tagline: Post-quantum cryptographic infrastructure. Open source. Free forever.
   actions:
     - text: Get Started
-      link: /getting-started/introduction/
+      link: /getting-started/installation/
       icon: right-arrow
       variant: primary
     - text: View on GitHub
@@ -18,21 +17,55 @@ hero:
 
 import { Card, CardGrid } from '@astrojs/starlight/components';
 
+```typescript
+// Install
+npm install @brivora/crypto @brivora/verify
+
+// Create a post-quantum identity
+import { crypto } from '@brivora/crypto';
+const keys = await crypto.createIdentity();
+
+// Sign data with PQC
+const signed = await crypto.sign('hello world', keys.privateKey);
+const { valid } = await crypto.verify(signed, keys.publicKey);
+
+// Generate a governance proof
+import { verify } from '@brivora/verify';
+const result = await verify.govern(aiCall, { governance: 'eu-ai-act' });
+console.log(result.proof); // PQC-signed Merkle root
+```
+
 <CardGrid>
-  <Card title="@brivora/crypto" icon="seti:lock">
-    Post-quantum cryptography in 3 lines of TypeScript. Hybrid ML-KEM-768 + ML-DSA-65 + classical crypto. NIST FIPS compliant.
+  <Card title="Getting Started" icon="rocket">
+    Install, generate your first proof, learn the concepts.
 
-    [Read the docs →](/crypto/overview/)
+    [Installation](/getting-started/installation/) | [First Proof](/getting-started/first-proof/) | [Concepts](/getting-started/concepts/)
   </Card>
-  <Card title="@brivora/verify" icon="seti:todo">
-    5 lines of code to make any AI call verifiable. Cryptographic governance proofs with PQC-signed Merkle roots.
+  <Card title="@brivora/crypto" icon="setting">
+    Post-quantum cryptography in 3 lines of TypeScript. ML-KEM-768, ML-DSA-65, SLH-DSA, hybrid mode.
 
-    [Read the docs →](/verify/overview/)
+    [Overview](/crypto/overview/) | [API Reference](/crypto/api-reference/)
   </Card>
-  <Card title="Zero Telemetry" icon="seti:ignored">
-    No analytics. No network calls. No tracking. Pure local computation. Your data never leaves your machine.
+  <Card title="@brivora/verify" icon="approve-check">
+    5 lines of code to make any AI call verifiable. 24 governance packs, PQC-signed Merkle proofs.
+
+    [Overview](/verify/overview/) | [API Reference](/verify/api-reference/)
   </Card>
-  <Card title="AGPL-3.0" icon="seti:license">
-    Fully open source. Inspect every line. Fork it. Build on it. Free forever for open source projects.
+  <Card title="Governance Packs" icon="document">
+    24 built-in packs covering EU AI Act, SOC 2, HIPAA, NIST AI RMF, CCPA, and more.
+
+    [Pack Catalog](/governance-packs/catalog/)
+  </Card>
+  <Card title="Protocol Specification" icon="open-book">
+    Open verification protocol. Byte-level proof format, Merkle construction, test vectors.
+
+    [Proof Format](/protocol/proof-format/) | [Test Vectors](/protocol/test-vectors/)
+  </Card>
+  <Card title="Guides" icon="list-format">
+    CI/CD integration, migration from classical cryptography, enterprise deployment.
+
+    [CI/CD](/guides/ci-cd/) | [Migration](/guides/migration/) | [Enterprise](/guides/enterprise/)
   </Card>
 </CardGrid>
+
+{/* TODO: Replace with final hand-drawn diagram showing Brivora ecosystem overview */}

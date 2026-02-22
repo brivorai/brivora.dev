@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 250" fill="none">
+  <!-- TODO: Replace with final hand-drawn diagram -->
+  <!-- 5-Stage Governance Pipeline -->
+  <style>
+    text { font-family: 'Virgil', 'Caveat', 'Comic Sans MS', cursive; fill: currentColor; }
+    .box { stroke: currentColor; stroke-width: 1.5; fill: none; }
+    .arrow { stroke: currentColor; stroke-width: 1.5; fill: none; marker-end: url(#arrowhead2); }
+    .label { font-size: 13px; }
+    .stage { font-size: 15px; font-weight: bold; }
+    .annotation { font-size: 11px; opacity: 0.6; font-style: italic; }
+    .number { font-size: 20px; font-weight: bold; opacity: 0.3; }
+  </style>
+  <defs>
+    <marker id="arrowhead2" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="currentColor"/>
+    </marker>
+  </defs>
+
+  <!-- Stage 1: DEFINE -->
+  <text class="number" x="30" y="55">1</text>
+  <rect class="box" x="20" y="70" width="140" height="80" rx="4"/>
+  <text class="stage" x="50" y="100">DEFINE</text>
+  <text class="label" x="35" y="120">load governance</text>
+  <text class="label" x="35" y="135">pack (rules)</text>
+
+  <!-- Stage 2: OBSERVE -->
+  <text class="number" x="210" y="55">2</text>
+  <rect class="box" x="200" y="70" width="140" height="80" rx="4"/>
+  <text class="stage" x="220" y="100">OBSERVE</text>
+  <text class="label" x="215" y="120">capture state</text>
+  <text class="label" x="215" y="135">pre-flight checks</text>
+
+  <!-- Stage 3: EXECUTE -->
+  <text class="number" x="390" y="55">3</text>
+  <rect class="box" x="380" y="70" width="140" height="80" rx="4"/>
+  <text class="stage" x="405" y="100">EXECUTE</text>
+  <text class="label" x="395" y="120">run your AI call</text>
+  <text class="label" x="395" y="135">(unchanged)</text>
+
+  <!-- Stage 4: EVALUATE -->
+  <text class="number" x="570" y="55">4</text>
+  <rect class="box" x="560" y="70" width="140" height="80" rx="4"/>
+  <text class="stage" x="575" y="100">EVALUATE</text>
+  <text class="label" x="575" y="120">check rules vs</text>
+  <text class="label" x="575" y="135">execution result</text>
+
+  <!-- Stage 5: PROVE -->
+  <text class="number" x="750" y="55">5</text>
+  <rect class="box" x="740" y="70" width="140" height="80" rx="4"/>
+  <text class="stage" x="775" y="100">PROVE</text>
+  <text class="label" x="755" y="120">PQC-signed</text>
+  <text class="label" x="755" y="135">Merkle proof</text>
+
+  <!-- Arrows -->
+  <path class="arrow" d="M160 110 L195 110"/>
+  <path class="arrow" d="M340 110 L375 110"/>
+  <path class="arrow" d="M520 110 L555 110"/>
+  <path class="arrow" d="M700 110 L735 110"/>
+
+  <!-- Annotations -->
+  <text class="annotation" x="350" y="200">your function runs here</text>
+  <text class="annotation" x="350" y="215">-- nothing changes about your code</text>
+  <text class="annotation" x="740" y="200">the math is the proof</text>
+</svg>

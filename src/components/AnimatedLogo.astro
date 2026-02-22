@@ -1,0 +1,203 @@
+---
+/**
+ * Animated isometric cube logo for the Brivora header.
+ * Frame 0 matches the static SVG logos (logo-dark.svg / logo-light.svg).
+ * Rotates on all 3 axes (~18s cycle), dashed back faces, solid front faces,
+ * flame flicker, subtle vertical bobbing.
+ * Respects prefers-reduced-motion.
+ * Links to https://brivora.ai
+ */
+interface Props {
+  size?: number;
+}
+
+const { size = 40 } = Astro.props;
+---
+
+<a href="https://brivora.ai" class="animated-logo-link" aria-label="Brivora home">
+  <div class="cube-scene" style={`width: ${size}px; height: ${size * 1.1875}px;`}>
+    <div class="cube-wrapper">
+      <svg
+        class="cube-svg"
+        viewBox="0 0 32 38"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        role="img"
+        aria-label="Brivora logo"
+      >
+        <!-- Visible edges (solid) -->
+        <path
+          class="cube-edge-solid"
+          d="M16 3 L29 10.5 L29 27.5 L16 35 L3 27.5 L3 10.5 Z"
+          stroke-width="0.7"
+          fill="none"
+        />
+        <path
+          class="cube-edge-solid"
+          d="M3 10.5 L16 18 L29 10.5"
+          stroke-width="0.7"
+          fill="none"
+        />
+        <path
+          class="cube-edge-solid"
+          d="M16 18 L16 35"
+          stroke-width="0.7"
+          fill="none"
+        />
+        <!-- Hidden edges (dashed) -->
+        <path
+          class="cube-edge-dashed"
+          d="M16 3 L16 18"
+          stroke-width="0.7"
+          stroke-dasharray="2 2"
+          fill="none"
+        />
+        <path
+          class="cube-edge-dashed"
+          d="M3 27.5 L16 20"
+          stroke-width="0.7"
+          stroke-dasharray="2 2"
+          fill="none"
+        />
+        <path
+          class="cube-edge-dashed"
+          d="M29 27.5 L16 20"
+          stroke-width="0.7"
+          stroke-dasharray="2 2"
+          fill="none"
+        />
+        <!-- Flame (outer) -->
+        <path
+          class="flame-outer"
+          d="M16 14 C16 14 14.3 16.5 14.3 17.5 C14.3 18.5 15 19.2 16 19.2 C17 19.2 17.7 18.5 17.7 17.5 C17.7 16.5 16 14 16 14Z"
+        />
+        <!-- Flame (inner) -->
+        <path
+          class="flame-inner"
+          d="M16 15.5 C16 15.5 15.2 16.8 15.2 17.3 C15.2 17.8 15.5 18.1 16 18.1 C16.5 18.1 16.8 17.8 16.8 17.3 C16.8 16.8 16 15.5 16 15.5Z"
+        />
+      </svg>
+    </div>
+  </div>
+</a>
+
+<style>
+  .animated-logo-link {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  .cube-scene {
+    perspective: 200px;
+    display: inline-block;
+  }
+
+  .cube-wrapper {
+    animation:
+      cube-rotate 18s ease-in-out infinite,
+      cube-bob 4s ease-in-out infinite;
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+
+  .cube-svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  /* Light mode (default) */
+  .cube-edge-solid {
+    stroke: #111111;
+  }
+
+  .cube-edge-dashed {
+    stroke: #111111;
+  }
+
+  .flame-outer {
+    fill: #111111;
+    animation: flame-flicker 2s ease-in-out infinite;
+  }
+
+  .flame-inner {
+    fill: #ffffff;
+    animation: flame-flicker 2s ease-in-out infinite 0.3s;
+  }
+
+  /* Dark mode */
+  :root[data-theme='dark'] .cube-edge-solid {
+    stroke: #ffffff;
+  }
+
+  :root[data-theme='dark'] .cube-edge-dashed {
+    stroke: #ffffff;
+  }
+
+  :root[data-theme='dark'] .flame-outer {
+    fill: #ffffff;
+  }
+
+  :root[data-theme='dark'] .flame-inner {
+    fill: #000000;
+  }
+
+  @keyframes cube-rotate {
+    0% {
+      transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+    }
+    25% {
+      transform: rotateX(3deg) rotateY(6deg) rotateZ(1deg);
+    }
+    50% {
+      transform: rotateX(-2deg) rotateY(-4deg) rotateZ(-1deg);
+    }
+    75% {
+      transform: rotateX(2deg) rotateY(5deg) rotateZ(0.5deg);
+    }
+    100% {
+      transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+    }
+  }
+
+  @keyframes cube-bob {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-2px);
+    }
+  }
+
+  @keyframes flame-flicker {
+    0%, 100% {
+      opacity: 1;
+      transform: scaleY(1);
+    }
+    25% {
+      opacity: 0.85;
+      transform: scaleY(0.95);
+    }
+    50% {
+      opacity: 1;
+      transform: scaleY(1.05);
+    }
+    75% {
+      opacity: 0.9;
+      transform: scaleY(0.98);
+    }
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .cube-wrapper {
+      animation: none;
+    }
+
+    .flame-outer,
+    .flame-inner {
+      animation: none;
+    }
+  }
+</style>

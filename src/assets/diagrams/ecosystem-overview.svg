@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" fill="none">
+  <!-- TODO: Replace with final hand-drawn diagram -->
+  <!-- Brivora Ecosystem Overview -->
+  <style>
+    text { font-family: 'Virgil', 'Caveat', 'Comic Sans MS', cursive; fill: currentColor; }
+    .box { stroke: currentColor; stroke-width: 1.5; fill: none; stroke-dasharray: none; }
+    .arrow { stroke: currentColor; stroke-width: 1.5; fill: none; marker-end: url(#arrowhead); }
+    .label { font-size: 14px; }
+    .title { font-size: 18px; font-weight: bold; }
+    .annotation { font-size: 12px; opacity: 0.6; font-style: italic; }
+  </style>
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="currentColor"/>
+    </marker>
+  </defs>
+
+  <!-- @brivora/crypto box -->
+  <rect class="box" x="50" y="100" width="200" height="120" rx="4"/>
+  <text class="title" x="90" y="135">@brivora/crypto</text>
+  <text class="label" x="70" y="165">ML-KEM-768</text>
+  <text class="label" x="70" y="185">ML-DSA-65</text>
+  <text class="label" x="70" y="205">Ed25519 hybrid</text>
+
+  <!-- @brivora/verify box -->
+  <rect class="box" x="350" y="100" width="200" height="120" rx="4"/>
+  <text class="title" x="380" y="135">@brivora/verify</text>
+  <text class="label" x="370" y="165">governance pipeline</text>
+  <text class="label" x="370" y="185">Merkle proofs</text>
+  <text class="label" x="370" y="205">24 built-in packs</text>
+
+  <!-- Governance Packs box -->
+  <rect class="box" x="350" y="280" width="200" height="80" rx="4"/>
+  <text class="title" x="375" y="315">governance packs</text>
+  <text class="label" x="370" y="340">pure data, no code</text>
+
+  <!-- BrivoraProof output -->
+  <rect class="box" x="620" y="130" width="150" height="60" rx="4"/>
+  <text class="title" x="640" y="165">BrivoraProof</text>
+
+  <!-- Arrows -->
+  <path class="arrow" d="M250 160 L345 160"/>
+  <path class="arrow" d="M450 280 L450 225"/>
+  <path class="arrow" d="M550 160 L615 160"/>
+
+  <!-- Annotations -->
+  <text class="annotation" x="260" y="150">signs proofs</text>
+  <text class="annotation" x="455" y="260">feeds rules</text>
+  <text class="annotation" x="560" y="148">outputs</text>
+  <text class="annotation" x="630" y="205">PQC-signed Merkle root</text>
+  <text class="annotation" x="630" y="220">verifiable by anyone</text>
+</svg>

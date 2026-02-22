@@ -1,56 +1,46 @@
 ---
-title: Proof Format
-description: The BrivoraProof data structure.
+title: BrivoraProof Protocol Specification
+description: Byte-level proof format specification for cross-implementation compatibility.
 ---
 
-## BrivoraProof
+This document specifies the BrivoraProof format at the byte level, enabling any implementation in any programming language to generate and verify governance proofs without depending on Brivora software.
+
+## Proof structure
+
+A BrivoraProof is a structured object with the following fields, serialized as CBOR (RFC 8949) for wire format and JSON for human-readable interchange.
+
+| Field | Type | Size | Description |
+|-------|------|------|-------------|
+| `version` | string | 3 bytes | Protocol version (`"1.0"`) |
+| `timestamp` | string | 24 bytes | ISO 8601 UTC timestamp |
+| `subject` | string | variable | DID of the evaluated system |
+| `verifier` | string | variable | DID of the verifier |
+| `governance_policy` | bytes | 32 bytes | SHA-3-256 hash of governance pack |
+| `system_state_hash` | bytes | 32 bytes | SHA-3-256 hash of system state |
+| `fidelity_score` | float64 | 8 bytes | Compliance score (0.0-1.0) |
+| `evaluation_result` | uint8 | 1 byte | 0=PASS, 1=FAIL, 2=PARTIAL |
+| `evidence_chain` | bytes[] | 32 x N bytes | Merkle tree leaf hashes |
+| `merkle_root` | bytes | 32 bytes | SHA-3-256 Merkle root |
+| `signature` | object | variable | See signature format below |
+| `public_key` | bytes | variable | Verifier's public key |
+| `previous_proof` | bytes | 32 bytes | Previous proof hash (optional) |
+
+## Hash algorithm
+
+All hashes use SHA-3-256 (FIPS 202). Input is the canonical CBOR encoding of the field value.
+
+## Signature format
 
 ```typescript
-interface BrivoraProof {
-  version: '1.0';
-  timestamp: string;                    // ISO-8601
-  subject: string;                      // AI system identifier
-  verifier: string;                     // Verifier fingerprint
-  governance_policy: ContentHash;       // Hash of governance pack
-  fidelity_score: FidelityScore;        // Composite score 0.0-1.0
-  evaluation_result: 'PASS' | 'FAIL' | 'PARTIAL';
-  evidence_chain: ContentHash[];        // Ordered event hashes (Merkle leaves)
-  merkle_root: ContentHash;             // Root of the Merkle tree
-  signature: ProofSignature;            // ML-DSA-65 + Ed25519 hybrid
-  public_key: Uint8Array;               // For self-contained verification
-  previous_proof?: ContentHash;         // Chain link
+interface ProofSignature {
+  pqc: Uint8Array;            // ML-DSA-65 signature (~3,300 bytes)
+  classical?: Uint8Array;     // Ed25519 signature (64 bytes)
+  algorithm: string;          // 'hybrid-pqc-v1' or 'pqc-only-v1'
 }
 ```
 
-## ContentHash
+The signed message is the `merkle_root` bytes.
 
-```typescript
-interface ContentHash {
-  algorithm: 'sha3-256';
-  value: string;  // hex-encoded
-}
-```
+## Version negotiation
 
-All hashes in the protocol use SHA-3-256. This includes event hashes, Merkle tree nodes, governance pack hashes, and chain links.
-
-## FidelityScore
-
-```typescript
-interface FidelityScore {
-  overall: number;                      // 0.0 - 1.0
-  dimensions: Record<string, number>;   // Per-dimension scores
-  threshold: number;                    // Minimum passing score
-  passed: boolean;                      // overall >= threshold
-}
-```
-
-## Self-Contained Verification
-
-A BrivoraProof includes everything needed to verify it:
-
-- **`evidence_chain`** — The ordered event hashes used to build the Merkle tree
-- **`merkle_root`** — The expected root hash
-- **`signature`** — The PQC signature over the root
-- **`public_key`** — The verifier's public key
-
-No external state, no API, no database. Just the proof and a hash function.
+Verifiers must check the `version` field before processing. Unknown versions must be rejected. Version `"1.0"` is the only currently defined version.

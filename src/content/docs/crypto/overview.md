@@ -3,36 +3,39 @@ title: "@brivora/crypto"
 description: Post-quantum cryptography in 3 lines of TypeScript.
 ---
 
-**@brivora/crypto** is an opinionated, batteries-included post-quantum cryptography library for JavaScript/TypeScript.
+Post-quantum cryptography in 3 lines of TypeScript.
 
-- **Hybrid by default** — Classical (Ed25519 + X25519) + Post-Quantum (ML-DSA-65 + ML-KEM-768). Both must be broken to compromise security.
-- **NIST FIPS compliant** — ML-KEM-768 (FIPS 203), ML-DSA-65 (FIPS 204), finalized August 2024.
-- **Self-describing payloads** — Every encrypted/signed payload includes version and algorithm metadata.
-- **Zero configuration** — Sensible defaults. No crypto PhD required.
-- **Pure TypeScript** — No native modules. No WASM. Works everywhere: Node.js, Deno, Bun, browsers.
-- **Zero telemetry** — No analytics. No network calls. Pure local computation.
+`@brivora/crypto` is a TypeScript library implementing NIST post-quantum cryptographic standards with a simple, unified API. Hybrid by default -- classical Ed25519 + X25519 combined with post-quantum ML-DSA-65 + ML-KEM-768.
 
-## Install
-
-```bash
-npm install @brivora/crypto
-```
-
-## 3-Line Quick Start
+Zero configuration. Zero external network calls. Zero telemetry. Works in Node.js, Deno, Bun, and browsers.
 
 ```typescript
 import { crypto } from '@brivora/crypto';
+
 const keys = await crypto.createIdentity();
-const signed = await crypto.sign(data, keys.privateKey);
+const signed = await crypto.sign('hello world', keys.privateKey);
+const { valid } = await crypto.verify(signed, keys.publicKey);
+// valid === true
 ```
 
-## Built On
+## What's inside
 
-- [@noble/post-quantum](https://github.com/paulmillr/noble-post-quantum) — ML-KEM, ML-DSA (audited by Cure53)
-- [@noble/hashes](https://github.com/paulmillr/noble-hashes) — SHA-2, SHA-3, HKDF
-- [@noble/curves](https://github.com/paulmillr/noble-curves) — Ed25519, X25519
+- **ML-KEM-768** (FIPS 203) -- key encapsulation / encryption
+- **ML-DSA-65** (FIPS 204) -- digital signatures
+- **SLH-DSA-SHAKE-128f** (FIPS 205) -- stateless hash-based signatures
+- **Ed25519 + X25519** -- classical hybrid mode
+- Key rotation with signed migration proofs
+- Key derivation (HKDF-SHA256)
+- Ed25519 key upgrade to hybrid PQC
 
-## Requirements
+## Dependencies
 
-- Node.js 20+ (also works in Deno, Bun, and modern browsers)
-- Web Crypto API (`globalThis.crypto.subtle`)
+- `@noble/post-quantum` -- PQC algorithm implementations
+- `@noble/curves` -- Ed25519/X25519
+- `@noble/hashes` -- SHA-256, SHA-3, HKDF
+
+## Stats
+
+124 tests | 98.83% coverage | v0.1.0
+
+<!-- TODO: Replace with final hand-drawn diagram showing architecture: identity.ts -> sign.ts/encrypt.ts -> @noble libraries -->

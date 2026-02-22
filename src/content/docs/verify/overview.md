@@ -3,43 +3,43 @@ title: "@brivora/verify"
 description: 5 lines of code to make any AI call verifiable.
 ---
 
-**@brivora/verify** wraps any AI API call with governance rules and generates a cryptographic proof of compliance. PQC-signed Merkle root. Independently verifiable by anyone. No API call. No account. Pure math.
+5 lines of code to make any AI call verifiable.
 
-## Install
+`@brivora/verify` wraps any AI call with governance rules and produces a cryptographic proof of compliance. The proof is a PQC-signed Merkle root -- verifiable by anyone, without trusting Brivora or any intermediary.
 
-```bash
-npm install @brivora/verify
+24 built-in governance packs covering EU AI Act, SOC 2, HIPAA, NIST AI RMF, CCPA, and 16 more frameworks across 6+ jurisdictions.
+
+## 5-stage governance pipeline
+
+```
+DEFINE -> OBSERVE/PRE-EVALUATE -> EXECUTE -> POST-EVALUATE -> PROVE
 ```
 
-## 5-Line Quick Start
+1. **DEFINE** -- Load governance pack (regulatory rules)
+2. **OBSERVE** -- Capture pre-execution state, run pre-flight checks
+3. **EXECUTE** -- Run the actual AI call (your function, unchanged)
+4. **POST-EVALUATE** -- Evaluate governance rules against the execution result
+5. **PROVE** -- Generate PQC-signed Merkle tree proof
 
 ```typescript
 import { verify } from '@brivora/verify';
 
 const result = await verify.govern(
   () => anthropic.messages.create({
-    model: 'claude-sonnet-4-5-20250929',
+    model: 'claude-sonnet-4-6',
     messages: [{ role: 'user', content: 'Analyze this loan application' }]
   }),
-  { governance: 'eu-ai-act-v1', audit: true }
+  { governance: 'eu-ai-act', audit: true }
 );
 
-console.log(result.output);  // The AI response
-console.log(result.proof);   // PQC-signed Merkle root
-console.log(result.valid);   // true
-console.log(result.report);  // Compliance report
-console.log(result.score);   // Fidelity score 0.0-1.0
+console.log(result.output);    // The AI response
+console.log(result.proof);     // PQC-signed Merkle root
+console.log(result.valid);     // true
+console.log(result.score);     // Fidelity score 0.0-1.0
 ```
 
-## Key Properties
+## Stats
 
-- **Provider agnostic** — Works with Anthropic, OpenAI, Google, Mistral, Ollama, or any function that returns a promise
-- **Self-contained proofs** — A `BrivoraProof` contains everything needed for independent verification
-- **Governance packs are data** — Rule definitions, not executable code. Safe by design.
-- **Zero side effects** — No disk writes, no network calls (beyond your AI call), no logging
-- **Post-quantum signatures** — ML-DSA-65 + Ed25519 hybrid via `@brivora/crypto`
+125 tests | 244 assertions | v0.1.0
 
-## Requirements
-
-- Node.js 20+
-- `@brivora/crypto` (installed automatically as a dependency)
+<!-- TODO: Replace with final hand-drawn diagram showing the 5-stage pipeline as a flow diagram -->

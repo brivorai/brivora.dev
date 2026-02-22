@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200" fill="none">
+  <!-- TODO: Replace with final hand-drawn diagram -->
+  <!-- Key Lifecycle -->
+  <style>
+    text { font-family: 'Virgil', 'Caveat', 'Comic Sans MS', cursive; fill: currentColor; }
+    .box { stroke: currentColor; stroke-width: 1.5; fill: none; }
+    .arrow { stroke: currentColor; stroke-width: 1.5; fill: none; marker-end: url(#arrowhead3); }
+    .label { font-size: 14px; }
+    .stage { font-size: 15px; font-weight: bold; }
+    .annotation { font-size: 11px; opacity: 0.6; font-style: italic; }
+  </style>
+  <defs>
+    <marker id="arrowhead3" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="currentColor"/>
+    </marker>
+  </defs>
+
+  <!-- Create -->
+  <rect class="box" x="30" y="60" width="130" height="60" rx="4"/>
+  <text class="stage" x="60" y="88">CREATE</text>
+  <text class="label" x="42" y="108">createIdentity()</text>
+
+  <!-- Use -->
+  <rect class="box" x="220" y="60" width="130" height="60" rx="4"/>
+  <text class="stage" x="262" y="88">USE</text>
+  <text class="label" x="235" y="108">sign / encrypt</text>
+
+  <!-- Rotate -->
+  <rect class="box" x="410" y="60" width="130" height="60" rx="4"/>
+  <text class="stage" x="438" y="88">ROTATE</text>
+  <text class="label" x="422" y="108">rotateKeys()</text>
+
+  <!-- New Key -->
+  <rect class="box" x="600" y="60" width="130" height="60" rx="4"/>
+  <text class="stage" x="620" y="88">NEW KEY</text>
+  <text class="label" x="612" y="108">new identity</text>
+
+  <!-- Arrows -->
+  <path class="arrow" d="M160 90 L215 90"/>
+  <path class="arrow" d="M350 90 L405 90"/>
+  <path class="arrow" d="M540 90 L595 90"/>
+
+  <!-- Migration proof annotation -->
+  <text class="annotation" x="430" y="155">migration proof links</text>
+  <text class="annotation" x="430" y="170">old key to new key</text>
+  <path class="arrow" d="M475 140 L475 125"/>
+</svg>

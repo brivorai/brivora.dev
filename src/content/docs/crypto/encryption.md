@@ -1,41 +1,42 @@
 ---
 title: Encryption
-description: Hybrid X25519 + ML-KEM-768 encryption with AES-256-GCM.
+description: ML-KEM-768 post-quantum encryption with X25519 hybrid mode.
 ---
 
-## Encrypt & Decrypt
+`@brivora/crypto` uses ML-KEM-768 (FIPS 203) for post-quantum key encapsulation, combined with X25519 in hybrid mode. Messages are encrypted with AES-256-GCM using a shared secret derived from both classical and PQC key exchange.
+
+## Encrypt and decrypt
 
 ```typescript
 import { crypto } from '@brivora/crypto';
 
-// Alice encrypts a message for Bob
+const alice = await crypto.createIdentity();
+const bob = await crypto.createIdentity();
+
+// Encrypt for Bob (using Bob's public key)
 const encrypted = await crypto.encrypt('secret message', bob.publicKey);
 
-// Bob decrypts
+// Decrypt (only Bob's private key can decrypt)
 const plaintext = await crypto.decrypt(encrypted, bob.privateKey);
-// Uint8Array → use new TextDecoder().decode(plaintext) for strings
+console.log(new TextDecoder().decode(plaintext)); // 'secret message'
 ```
 
-## How Hybrid Encryption Works
-
-1. Generate ephemeral X25519 key pair
-2. Compute classical shared secret via X25519 ECDH
-3. Encapsulate PQC shared secret via ML-KEM-768
-4. Combine both secrets via HKDF-SHA256
-5. Encrypt plaintext with AES-256-GCM
-
-An attacker must break **both** X25519 **and** ML-KEM-768 to recover the plaintext.
-
-## PQC-Only Mode
+## PQC-only mode
 
 ```typescript
-// Disable classical crypto (PQC-only)
-const encrypted = await crypto.encrypt(data, pubKey, { hybrid: false });
+const encrypted = await crypto.encrypt(data, bob.publicKey, { hybrid: false });
+// Only ML-KEM-768, no X25519
 ```
 
-## API Reference
+## Encrypted payload structure
 
-| Method | Description |
-|--------|-------------|
-| `crypto.encrypt(data, recipientPublicKey, options?)` | Hybrid encrypt (X25519 + ML-KEM-768 + AES-256-GCM) |
-| `crypto.decrypt(encrypted, privateKey)` | Decrypt with your private key |
+```typescript
+interface EncryptedPayload {
+  version: 1;
+  algorithm: 'hybrid-pqc-v1' | 'pqc-only-v1';
+  classical?: Uint8Array;   // X25519 ephemeral public key (32 bytes)
+  pqc: Uint8Array;          // ML-KEM-768 ciphertext (1,088 bytes)
+  nonce: Uint8Array;        // AES-256-GCM nonce (12 bytes)
+  ciphertext: Uint8Array;   // Encrypted data with auth tag
+}
+```

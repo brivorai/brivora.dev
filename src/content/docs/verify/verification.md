@@ -1,47 +1,40 @@
 ---
 title: Independent Verification
-description: Verify proofs without Brivora — no API, no account, pure math.
+description: How to verify governance proofs without trusting anyone.
 ---
 
-## Verify a Proof
+Anyone can verify a BrivoraProof without trusting Brivora, the system operator, or any intermediary. No API. No account. Just math.
+
+## Verify a proof
 
 ```typescript
 import { verify } from '@brivora/verify';
 
-const verified = await verify.check(proof, publicKey);
-console.log(verified.valid); // true or false
+const verified = await verify.check(proof, verifierPublicKey);
+console.log(verified.valid);        // true
+console.log(verified.governance);   // 'eu-ai-act'
+console.log(verified.timestamp);    // ISO timestamp
 ```
 
-## What Verification Checks
+## What verification checks
 
-1. **Merkle tree reconstruction** — Recomputes the tree from the evidence chain
-2. **Root hash comparison** — Computed root must match the signed root
-3. **Signature verification** — ML-DSA-65 + Ed25519 hybrid signature must be valid
-4. **Chain integrity** (if chained) — `previous_proof` hash must match
+1. **Merkle root matches the evidence chain** -- tamper evidence
+2. **ML-DSA-65 signature is valid** -- authenticity
+3. **Ed25519 signature is valid if present** -- hybrid verification
+4. **Timestamp is within acceptable range**
+5. **Proof version is supported**
 
-If any event in the evidence chain was tampered with, the Merkle root changes and the signature becomes invalid.
+## Verification without Brivora
 
-## Verification Result
+The verification algorithm is fully specified in the [Protocol Specification](/protocol/signature-verification/). Any implementation in any language can verify a BrivoraProof. You do not need Brivora's software, servers, or permission.
+
+## Chain verification
+
+Verify an entire chain of proofs:
 
 ```typescript
-interface VerifyResult {
-  valid: boolean;                       // Signature AND Merkle root both valid
-  proof: BrivoraProof;                  // The proof that was verified
-  governance_policy: ContentHash;       // Which governance was applied
-  evaluation_result: 'PASS' | 'FAIL' | 'PARTIAL';
-  timestamp: string;
-  chain_valid?: boolean;                // If chained, did the chain verify?
-}
+const chainResult = await verify.checkChain(proofs, publicKey);
+console.log(chainResult.valid);      // true if entire chain is valid
+console.log(chainResult.length);     // number of proofs in chain
+console.log(chainResult.coverage);   // time range covered
 ```
-
-## Self-Contained Proofs
-
-Every `BrivoraProof` includes the public key needed for verification. This means:
-
-- No API call to Brivora required
-- No account or authentication needed
-- No external state or database lookup
-- Anyone with the proof can verify it independently
-- Verification works offline
-
-The proof is pure math. The trust model is cryptographic, not institutional.
